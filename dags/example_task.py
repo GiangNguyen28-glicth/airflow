@@ -20,9 +20,10 @@ with DAG(
         verbose=True,
         executor_memory="1g",
         driver_memory="512m",
-        deploy_mode='cluster',
+        deploy_mode='client',
         conf={
-            'spark.submit.deployMode': 'cluster'
+            'spark.driver.host': '10.36.241.100',
+            'spark.driver.bindAddress': '0.0.0.0',
         }
     )
 
