@@ -18,7 +18,10 @@ with DAG(
         application="/opt/spark-apps/main.py",     # path to your spark app
         conn_id="spark_default",                # Airflow Spark Connection
         verbose=True,
-        master='spark://10.36.241.102:7077',
+        conf={
+            'spark.master': 'spark://10.36.241.102:7077',
+            'spark.submit.deployMode': 'client',
+        },
         executor_memory="1g",
         driver_memory="512m"
     )
