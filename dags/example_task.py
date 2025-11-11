@@ -22,7 +22,7 @@ with DAG(
         driver_memory="512m",
         deploy_mode='client',
         conf={
-            'spark.driver.host': '10.36.241.100',
+            'spark.driver.host': '10.36.243.111',
             'spark.driver.bindAddress': '0.0.0.0',
         }
     )
