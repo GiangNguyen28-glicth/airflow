@@ -15,7 +15,7 @@ with DAG(
 ):
     spark_job = SparkSubmitOperator(
         task_id="spark_pi",
-        application="word_count.py",     # path to your spark app
+        application="dags/word_count.py",     # path to your spark app
         conn_id="spark_default",                # Airflow Spark Connection
         verbose=True,
         conf={
