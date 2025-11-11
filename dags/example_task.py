@@ -17,7 +17,9 @@ with DAG(
         task_id="spark_pi",
         application="dags/word_count.py",     # path to your spark app
         conn_id="spark_default",                # Airflow Spark Connection
-        verbose=True
+        verbose=True,
+        executor_memory="1g",
+        driver_memory="512m"
     )
 
     spark_job
