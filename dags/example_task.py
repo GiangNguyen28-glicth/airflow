@@ -19,7 +19,12 @@ with DAG(
         conn_id="spark_default",                # Airflow Spark Connection
         verbose=True,
         executor_memory="1g",
-        driver_memory="512m"
+        driver_memory="512m",
+        conf={
+            "spark.driver.host": "10.36.243.111",
+            "spark.driver.bindAddress": "0.0.0.0",
+            "spark.submit.deployMode": "client"
+        }
     )
 
     spark_job
