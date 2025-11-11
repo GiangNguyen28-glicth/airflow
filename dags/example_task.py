@@ -1,43 +1,25 @@
-from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.operators.python import PythonOperator
+from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+from datetime import datetime
 
-# Hàm thực thi Python
-def start_task():
-    print("✅ Job started!")
+default_args = {
+    "owner": "giangnt",
+}
 
-def process_data():
-    print("⚙️ Processing data...")
-    # Giả lập xử lý
-    for i in range(3):
-        print(f"Step {i+1}/3 done")
-    print("🎉 Job finished successfully!")
-
-# Định nghĩa DAG
 with DAG(
-    dag_id="example_job",  # Tên DAG
-    description="Simple example job for Airflow",
-    schedule_interval="0 7 * * *",
+    dag_id="spark_submit_example",
     start_date=datetime(2025, 1, 1),
-    catchup=False,
-    default_args={
-        "owner": "airflow",
-        "depends_on_past": False,
-        "retries": 1,
-        "retry_delay": timedelta(minutes=2),
-    },
-    tags=["example", "demo"],
-) as dag:
-
-    task_start = PythonOperator(
-        task_id="start_task",
-        python_callable=start_task,
+    schedule_interval=None,
+    default_args=default_args,
+    catchup=False
+):
+    spark_job = SparkSubmitOperator(
+        task_id="spark_pi",
+        application="/opt/spark-apps/pi.py",     # path to your spark app
+        conn_id="spark_default",                # Airflow Spark Connection
+        verbose=True,
+        executor_memory="1g",
+        driver_memory="512m"
     )
 
-    task_process = PythonOperator(
-        task_id="process_data",
-        python_callable=process_data,
-    )
-
-    # Định nghĩa thứ tự chạy
-    task_start >> task_process
+    spark_job
