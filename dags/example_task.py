@@ -7,23 +7,22 @@ default_args = {
 }
 
 with DAG(
-    dag_id="spark_submit_example",
-    start_date=datetime(2025, 1, 1),
-    schedule=None,
-    default_args=default_args,
-    catchup=False
+        dag_id="spark_submit_example",
+        start_date=datetime(2025, 1, 1),
+        schedule=None,
+        default_args=default_args,
+        catchup=False
 ):
     spark_job = SparkSubmitOperator(
         task_id="spark_pi",
-        application="dags/word_count.py",     # path to your spark app
-        conn_id="spark_default",                # Airflow Spark Connection
+        application="dags/word_count.py",  # path to your spark app
+        conn_id="spark_default",  # Airflow Spark Connection
         verbose=True,
         executor_memory="1g",
         driver_memory="512m",
         conf={
-            "spark.driver.host": "10.36.243.111",
-            "spark.driver.bindAddress": "0.0.0.0",
-            "spark.submit.deployMode": "client"
+            'spark.driver.bindAddress': '0.0.0.0',
+            'spark.blockManager.checkFor=exposed=host': 'false'
         }
     )
 
