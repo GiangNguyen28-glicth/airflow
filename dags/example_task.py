@@ -24,6 +24,7 @@ with DAG(
         conf={
             'spark.driver.host': '10.36.243.111',
             'spark.driver.bindAddress': '0.0.0.0',
+            'spark.driver.port': '50010'
         }
     )
 
